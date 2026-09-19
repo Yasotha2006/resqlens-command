@@ -32,7 +32,7 @@ export const Route = createFileRoute("/api/chat")({
     handlers: {
       GET: async ({ request }) => {
         const current = await session(request);
-        return Response.json({ messages: current.data.messages }, { headers: current.fresh ? { "Set-Cookie": cookieHeader(current.token) } : undefined });
+        return Response.json({ messages: current.data.messages }, current.fresh ? { headers: { "Set-Cookie": cookieHeader(current.token) } } : {});
       },
       PUT: async ({ request }) => {
         const body = await request.json() as { messages?: unknown };
@@ -41,7 +41,7 @@ export const Route = createFileRoute("/api/chat")({
         const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
         const update = await supabaseAdmin.from("resqlens_copilot_sessions").update({ messages: body.messages, updated_at: new Date().toISOString() }).eq("id", current.data.id);
         if (update.error) return new Response(update.error.message, { status: 500 });
-        return Response.json({ saved: true }, { headers: current.fresh ? { "Set-Cookie": cookieHeader(current.token) } : undefined });
+        return Response.json({ saved: true }, current.fresh ? { headers: { "Set-Cookie": cookieHeader(current.token) } } : {});
       },
       POST: async ({ request }) => {
         const body = await request.json() as { messages?: unknown; context?: unknown };
