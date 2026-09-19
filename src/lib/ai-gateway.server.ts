@@ -16,10 +16,7 @@ export function createLovableAiGatewayRunIdFetch(initialRunId?: string) {
   return { fetch: gatewayFetch, getRunId: () => runId };
 }
 
-export function getLovableAiGatewayResponseHeaders(
-  base?: HeadersInit,
-  additions?: HeadersInit,
-) {
+export function getLovableAiGatewayResponseHeaders(base?: HeadersInit, additions?: HeadersInit) {
   const headers = new Headers(base);
   new Headers(additions).forEach((value, key) => headers.set(key, value));
   return headers;
