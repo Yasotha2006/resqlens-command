@@ -14,7 +14,95 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      resqlens_copilot_sessions: {
+        Row: {
+          access_token_hash: string
+          id: string
+          messages: Json
+          updated_at: string
+        }
+        Insert: {
+          access_token_hash: string
+          id?: string
+          messages?: Json
+          updated_at?: string
+        }
+        Update: {
+          access_token_hash?: string
+          id?: string
+          messages?: Json
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      resqlens_incidents: {
+        Row: {
+          id: string
+          location: string
+          note: string
+          occurred_at: string
+          scenario_id: string
+          severity: string
+          status: string
+        }
+        Insert: {
+          id?: string
+          location: string
+          note: string
+          occurred_at: string
+          scenario_id: string
+          severity: string
+          status: string
+        }
+        Update: {
+          id?: string
+          location?: string
+          note?: string
+          occurred_at?: string
+          scenario_id?: string
+          severity?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "resqlens_incidents_scenario_id_fkey"
+            columns: ["scenario_id"]
+            isOneToOne: false
+            referencedRelation: "resqlens_scenarios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      resqlens_scenarios: {
+        Row: {
+          confidence: number
+          created_at: string
+          id: string
+          location: string
+          name: string
+          severity: string
+          summary: string
+        }
+        Insert: {
+          confidence: number
+          created_at?: string
+          id: string
+          location: string
+          name: string
+          severity: string
+          summary: string
+        }
+        Update: {
+          confidence?: number
+          created_at?: string
+          id?: string
+          location?: string
+          name?: string
+          severity?: string
+          summary?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
